@@ -1,0 +1,33 @@
+<div class="container mt-5">
+    <div *ngIf="!showResult">
+      <h2>Quiz: Dzielenie</h2>
+      <div class="custom-center input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="range"><h4>Wybierz zakres:</h4></label>
+        </div>
+        <select id="range" class="custom-select" (change)="setRange($event)">
+            <option value="30"><b>0-30</b></option>
+            <option value="50"><b>0-50</b></option>
+            <option value="100" selected><b>0-100</b></option>
+          </select>          
+      </div>
+      <div *ngIf="questions.length && !showFeedback">
+        <h3>{{questions[currentQuestionIndex].dividend}} ÷ {{questions[currentQuestionIndex].divisor}} = ?</h3>
+        <div *ngFor="let option of questions[currentQuestionIndex].options">
+          <button class="custom-center btn btn-info btn-lg btn-block m-2" (click)="checkAnswer(option)">{{option}}</button>
+        </div>
+      </div>
+
+      <div *ngIf="showFeedback" class="custom-center feedback-message">
+        <h3 *ngIf = "isCorrect">{{questions[currentQuestionIndex-1].dividend}} ÷ {{questions[currentQuestionIndex-1].divisor}} = {{correct}}<br> <span class="emoji">👍</span> <br>Dobra odpowiedź!</h3>
+        <h3 *ngIf = "!isCorrect">{{questions[currentQuestionIndex-1].dividend}} ÷ {{questions[currentQuestionIndex-1].divisor}} =/= {{selectedAnswer}}<br> <span class="emoji">👎</span><br>Zła odpowiedź! <br/> Dobra odpowiedź to: {{correct}}</h3>
+    </div>
+      
+    </div>
+    <div *ngIf="showResult">
+      <h2 *ngIf="score === questions.length">Gratulacje! <br> <span class="emoji">🎉</span> <br> Twój wynik to: {{score}}/{{questions.length}}</h2>
+      <h2 *ngIf="score !== questions.length">Spróbuj ponownie! <br> <span class="emoji">😊</span> <br> Twój wynik to: {{score}}/{{questions.length}}</h2>
+      <button class="custom-center btn btn-success btn-lg btn-block" (click)="resetQuiz()">Restart</button>
+    </div>
+  </div>
+  
